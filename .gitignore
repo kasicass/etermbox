@@ -1,0 +1,9 @@
+_build
+.rebar3
+*.beam
+*.o
+*.plt
+erl_crash.dump
+rebar3.crashdump
+.erlang.cookie
+*~
