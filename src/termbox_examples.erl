@@ -1,14 +1,43 @@
 -module(termbox_examples).
 
--export([hello/0]).
+-export([show_all/0]).
 
--spec hello() -> ok.
-hello() ->
-    S1 = termbox_style:background(5),
-    S2 = termbox_style:foreground(S1, 3),
-    Out1 = termbox_style:render_to_string(S2, <<"Hello etermbox!">>),
-    io:format("~ts~n", [Out1]),
-    S3 = termbox_style:bold(S2),
-    Out2 = termbox_style:render_to_string(S3, <<"Hello etermbox, bold!">>),
-    io:format("~ts~n", [Out2]).
+-spec show_all() -> ok.
+show_all() ->
+    show_background(),
+    show_foreground(),
+    show_styles().
+
+-spec show_background() -> ok.
+show_background() ->
+    io:format("background:~n"),
+    lists:foreach(
+        fun (I) ->
+            Style = termbox_style:background(I),
+            Str = unicode:characters_to_binary(io_lib:format("color: ~2..0b", [I])),
+            Out = termbox_style:render_to_string(Style, Str),
+            io:format("  ~ts~n", [Out])
+        end, lists:seq(0, 15)).
+
+-spec show_foreground() -> ok.
+show_foreground() ->
+    io:format("foreground:~n"),
+    lists:foreach(
+        fun (I) ->
+            Style = termbox_style:foreground(I),
+            Str = unicode:characters_to_binary(io_lib:format("color: ~2..0b", [I])),
+            Out = termbox_style:render_to_string(Style, Str),
+            io:format("  ~ts~n", [Out])
+        end, lists:seq(0, 15)).
+
+-spec show_styles() -> ok.
+show_styles() ->
+    io:format("styles:~n"),
+    lists:foreach(
+        fun (Type) ->
+            Style = apply(termbox_style, Type, []),
+            Str = atom_to_binary(Type, utf8),
+            Out = termbox_style:render_to_string(Style, Str),
+            io:format("  ~ts~n", [Out])
+        end, [bold, faint, italic, underline, blink, crossed_out]).
 

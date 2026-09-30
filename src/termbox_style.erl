@@ -10,12 +10,19 @@
 -export([background/1, background/2]).
 -export([foreground/1, foreground/2]).
 -export([bold/0, bold/1]).
+-export([faint/0, faint/1]).
+-export([italic/0, italic/1]).
+-export([underline/0, underline/1]).
+-export([blink/0, blink/1]).
+-export([inverse/0, inverse/1]).
+-export([crossed_out/0, crossed_out/1]).
 -export([open_code/0, open_code/1]).
 -export([reset_code/0]).
 -export([render_to_string/1, render_to_string/2]).
 
 
 %% types
+
 -type terminal_type() :: ansi | ansi256.
 
 -type terminal_style() :: 
@@ -83,6 +90,57 @@ bold() ->
 -spec bold(terminal_palette()) -> terminal_palette().
 bold(#{styles := Styles} = Palette) ->
     Palette#{styles := [bold | Styles]}.
+
+-spec faint() -> terminal_palette().
+faint() ->
+    faint(new()).
+
+-spec faint(terminal_palette()) -> terminal_palette().
+faint(#{styles := Styles} = Palette) ->
+    Palette#{styles := [faint | Styles]}.
+
+-spec italic() -> terminal_palette().
+italic() ->
+    italic(new()).
+
+-spec italic(terminal_palette()) -> terminal_palette().
+italic(#{styles := Styles} = Palette) ->
+    Palette#{styles := [italic | Styles]}.
+
+-spec underline() -> terminal_palette().
+underline() ->
+    underline(new()).
+
+-spec underline(terminal_palette()) -> terminal_palette().
+underline(#{styles := Styles} = Palette) ->
+    Palette#{styles := [underline | Styles]}.
+
+-spec blink() -> terminal_palette().
+blink() ->
+    blink(new()).
+
+-spec blink(terminal_palette()) -> terminal_palette().
+blink(#{styles := Styles} = Palette) ->
+    Palette#{styles := [blink | Styles]}.
+
+-spec inverse() -> terminal_palette().
+inverse() ->
+    inverse(new()).
+
+-spec inverse(terminal_palette()) -> terminal_palette().
+inverse(#{styles := Styles} = Palette) ->
+    Palette#{styles := [inverse | Styles]}.
+
+-spec crossed_out() -> terminal_palette().
+crossed_out() ->
+    crossed_out(new()).
+
+-spec crossed_out(terminal_palette()) -> terminal_palette().
+crossed_out(#{styles := Styles} = Palette) ->
+    Palette#{styles := [crossed_out | Styles]}.
+
+
+%% rendering
 
 -spec reset_code() -> binary().
 reset_code() ->
